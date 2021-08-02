@@ -52,11 +52,14 @@ public class BaseProtocol extends AbstractSimpleProtocol {
                     wrapper.passthrough(Type.UNSIGNED_SHORT); // Server Port
                     int state = wrapper.passthrough(Type.VAR_INT);
 
+                    Via.getPlatform().getLogger().info("HANDSHAKE protocolVersion " + protocolVersion);
+
                     ProtocolInfo info = wrapper.user().getProtocolInfo();
                     info.setProtocolVersion(protocolVersion);
                     // Ensure the server has a version provider
                     VersionProvider versionProvider = Via.getManager().getProviders().get(VersionProvider.class);
                     if (versionProvider == null) {
+                        Via.getPlatform().getLogger().info("HANDSHAKE versionProvider == null");
                         wrapper.user().setActive(false);
                         return;
                     }
@@ -68,6 +71,7 @@ public class BaseProtocol extends AbstractSimpleProtocol {
 
                     // Only allow newer clients (or 1.9.2 on 1.9.4 server if the server supports it)
                     if (info.getProtocolVersion() >= serverProtocol || Via.getPlatform().isOldClientsAllowed()) {
+                        Via.getPlatform().getLogger().info("HANDSHAKE >= serverProtocol");
                         protocolPath = Via.getManager().getProtocolManager().getProtocolPath(info.getProtocolVersion(), serverProtocol);
                     }
 
@@ -75,6 +79,7 @@ public class BaseProtocol extends AbstractSimpleProtocol {
                     if (protocolPath != null) {
                         List<Protocol> protocols = new ArrayList<>(protocolPath.size());
                         for (ProtocolPathEntry entry : protocolPath) {
+                            Via.getPlatform().getLogger().info("HANDSHAKE protocolPath " + entry.getOutputProtocolVersion() + ", " + entry.getProtocol().getClass().getName());
                             protocols.add(entry.getProtocol());
 
                             // Ensure mapping data has already been loaded
@@ -98,6 +103,7 @@ public class BaseProtocol extends AbstractSimpleProtocol {
                     } else if (state == 2) {
                         info.setState(State.LOGIN);
                     }
+                    Via.getPlatform().getLogger().info("HANDSHAKE state " + state);
                 });
             }
         });

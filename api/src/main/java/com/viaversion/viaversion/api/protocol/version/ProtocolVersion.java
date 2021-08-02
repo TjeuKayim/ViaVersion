@@ -78,7 +78,9 @@ public class ProtocolVersion {
     public static final ProtocolVersion v1_16_4 = register(754, "1.16.4/5", new VersionRange("1.16", 4, 5));
     public static final ProtocolVersion v1_17 = register(755, "1.17");
     public static final ProtocolVersion v1_17_1 = register(756, "1.17.1");
-    public static final ProtocolVersion vNot1_17_1 = register(77777, 41, "Not 1.17.1");
+    // public static final ProtocolVersion vNot1_17_1 = register(77777, 42, "Not 1.17.1");
+    // public static final ProtocolVersion vNot1_17_1 = register(1073741872, "Not 1.17.1");
+    public static final ProtocolVersion vNot1_17_1 = register(1073741866, "Not 1.17.1");
     public static final ProtocolVersion unknown = register(-1, "UNKNOWN");
 
     public static ProtocolVersion register(int version, String name) {
